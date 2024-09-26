@@ -4,7 +4,8 @@ export const registerformcontrols = [
         label: 'User Name',
         placeholder: 'Enter Your user name',
         componentType: 'input',
-        type: 'text'
+        type: 'text',
+        options : []
     },
     {
         name: 'email',
