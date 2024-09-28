@@ -6,17 +6,20 @@ import { Link } from "react-router-dom";
 function AuthRegister() {
 
     const initialState = {
-
         userName: '',
         email: '',
         password: ''
     }
 
     const [formData, setFormData] = useState(initialState)
+    // const disatch
 
-    function onSubmit(){
-
+    function onSubmit(event){
+        event.preventDefault()
     }
+
+    console.log(formData);
+
     return (
     <div className="mx-auto w-full max-w-md space-y-6">
         <div className="text-center">
