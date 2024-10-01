@@ -1,7 +1,7 @@
 export const registerformcontrols = [
-  { name: "userName", label: "Username", type: "text" },
-  { name: "email", label: "Email", type: "email" },
-  { name: "password", label: "Password", type: "password" },
+  { name: "userName", placeholder: "Enter Your Name", label: "Username", type: "text" },
+  { name: "email", placeholder: "Enter Your Email",  label: "Email", type: "email" },
+  { name: "password", placeholder: "Enter Your Password",  label: "Password", type: "password" },
 ];
 
 export const loginformcontrols = [

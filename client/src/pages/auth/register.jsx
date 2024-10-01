@@ -22,7 +22,17 @@ function AuthRegister() {
         dispatch(registerUser(formData)).then((data) => {
             console.log(data);
 
-            if (data?.payload?.success) navigate('/auth/login')
+            if (data?.payload?.success) {
+                toast({
+                  title: data?.payload?.message,
+                });
+                navigate("/auth/login");
+              } else {
+                toast({
+                  title: data?.payload?.message,
+                  variant: "destructive",
+                });
+              }
         });
     }
 

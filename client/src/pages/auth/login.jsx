@@ -1,5 +1,6 @@
 import CommanForm from "@/components/common/form";
 import { loginformcontrols } from "@/config";
+import { loginUser } from "@/store/auth-slice";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -12,9 +13,25 @@ function AuthLogin() {
     }
 
     const [formData, setFormData] = useState(initialState)
+    const dispatch = useDispatch(); // Correct typo here
 
-    function onSubmit(){
+    function onSubmit(event){
+        event.preventDefault();
 
+        dispatch(loginUser(formData)).then((data) => {
+            console.log(data);
+            
+        //   if (data?.payload?.success) {
+        //     toast({
+        //       title: data?.payload?.message,
+        //     });
+        //   } else {
+        //     toast({
+        //       title: data?.payload?.message,
+        //       variant: "destructive",
+        //     });
+        //   }
+        });
     }
 
 
@@ -34,7 +51,7 @@ function AuthLogin() {
         </div>
         <CommanForm 
             formControls={loginformcontrols }
-            buttonText={'Create Account'}
+            buttonText={'Sign In'}
             formData={formData}
             setFormData={setFormData}
             onSubmit={onSubmit}
