@@ -1,7 +1,9 @@
 import CommanForm from "@/components/common/form";
 import { loginformcontrols } from "@/config";
+import { toast } from "@/hooks/use-toast";
 import { loginUser } from "@/store/auth-slice";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 function AuthLogin() {
@@ -21,16 +23,19 @@ function AuthLogin() {
         dispatch(loginUser(formData)).then((data) => {
             console.log(data);
             
-        //   if (data?.payload?.success) {
-        //     toast({
-        //       title: data?.payload?.message,
-        //     });
-        //   } else {
-        //     toast({
-        //       title: data?.payload?.message,
-        //       variant: "destructive",
-        //     });
-        //   }
+          if (data?.payload?.success) {
+            
+            toast({
+              title: data?.payload?.message,
+            });
+          } else {
+            console.log("1");
+
+            toast({
+              title: data?.payload?.message,
+              variant: "destructive",
+            });
+          }
         });
     }
 

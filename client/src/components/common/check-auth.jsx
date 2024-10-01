@@ -2,7 +2,12 @@ import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
 function CheckAuth({ isAuthenticated, user, children }) {
+
+  console.log("ok");
+
   const location = useLocation();
+
+  
 
   if (
     !isAuthenticated &&
@@ -15,8 +20,8 @@ function CheckAuth({ isAuthenticated, user, children }) {
   }
 
   if (
-    !isAuthenticated &&
-    !(
+    isAuthenticated &&
+    (
       location.pathname.includes("/login") ||
       location.pathname.includes("/register")
     )

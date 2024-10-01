@@ -1,5 +1,6 @@
 import CommanForm from "@/components/common/form";
 import { registerformcontrols } from "@/config";
+import { toast } from "@/hooks/use-toast";
 import { registerUser } from "@/store/auth-slice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";

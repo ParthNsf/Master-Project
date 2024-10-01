@@ -15,16 +15,18 @@ import ShoppingCheckout from "./pages/shopping-view/checkout";
 import ShoppingAccount from "./pages/shopping-view/account";
 import CheckAuth from "./components/common/check-auth";
 import UnauthPage from "./pages/unsuth-pages";
+import { useSelector } from "react-redux";
 
 function App() {
-  const isAuthenticated = true;
-  const user = {
-    role: "user"
-  }
+  // const isAuthenticated = true;
+  // const user = {
+  //   role: "user"
+  // }
+
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
-      <h1>Header Component</h1>
 
       <Routes>
         <Route path="*" element={<Notfound />} />
