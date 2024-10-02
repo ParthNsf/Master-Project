@@ -91,7 +91,7 @@ const loginUser = async (req, res) => {
         email: checkUser.email,
         userName: checkUser.userName,
       },
-      "CLIENT_SECRET_KEY",
+      "ewff44f4fwes",
       { expiresIn: "60m" }
     );
 
@@ -113,4 +113,31 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+const logoutUser = async (req, res) => {
+  res.clearCoookie('token').json({
+    success: true,
+    message: "Logged out successfully"
+  })
+};
+
+const authMiddleware = async (req, res, next) => {
+  const token = req.cookie.token;
+  if(!token) return res.status(401).json({
+    success: false,
+    message: "Unauthorised user!"
+  })
+
+
+  try {
+    const decoded = jwt.verify(token, 'ewff44f4fwes')
+    req.user = decoded
+    next()
+  } catch (error) {
+    res.status(401).json({
+      success: false,
+      message: "Unauthorised user!",
+    });
+  }
+}
+
+module.exports = { registerUser, loginUser, logoutUser, authMiddleware };
