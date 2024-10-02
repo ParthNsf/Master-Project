@@ -15,7 +15,9 @@
   import ShoppingAccount from "./pages/shopping-view/account";
   import CheckAuth from "./components/common/check-auth";
   import UnauthPage from "./pages/unsuth-pages";
-  import { useSelector } from "react-redux";
+  import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { checkAuth } from "./store/auth-slice";
 
   function App() {
     // const isAuthenticated = true;
@@ -23,9 +25,16 @@
     //   role: "admin"
     // }
 
-    const { user, isAuthenticated } = useSelector((state) => state.auth);
+    const { user, isAuthenticated, isLoading } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
 
-    console.log(user,"user");
+useEffect(()=>{
+  dispatch(checkAuth())
+}, [dispatch])
+
+if(isLoading) return <div>Loading...</div>
+
+    console.log(isLoading, user,"user");
     
 
 

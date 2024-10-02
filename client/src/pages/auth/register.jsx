@@ -14,6 +14,10 @@ function AuthRegister() {
     }
 
     const [formData, setFormData] = useState(initialState);
+
+    3
+
+    
     const dispatch = useDispatch(); // Correct typo here
     const navigate = useNavigate();
 
