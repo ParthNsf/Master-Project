@@ -18,6 +18,8 @@
   import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
+import { Skeleton } from "@/components/ui/skeleton"
+
 
   function App() {
     // const isAuthenticated = true;
@@ -32,7 +34,8 @@ useEffect(()=>{
   dispatch(checkAuth())
 }, [dispatch])
 
-if(isLoading) return <div>Loading...</div>
+if(isLoading) return <Skeleton className="w-[600px] h-[600px] rounded" />
+;   
 
     console.log(isLoading, user,"user");
     

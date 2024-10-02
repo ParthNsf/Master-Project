@@ -92,7 +92,7 @@ const loginUser = async (req, res) => {
         userName: checkUser.userName,
       },
       "ewff44f4fwes",
-      { expiresIn: "1m" }
+      { expiresIn: "5m" }
     );
 
     res.cookie("token", token, { httpOnly: true, secure: false }).json({
