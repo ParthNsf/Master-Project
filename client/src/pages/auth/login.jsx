@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 function AuthLogin() {
 
     const initialState = {
-
         email: '',
         password: ''
     }
@@ -21,7 +20,7 @@ function AuthLogin() {
         event.preventDefault();
 
         dispatch(loginUser(formData)).then((data) => {
-            console.log(data);
+            console.log("data",data);
             
           if (data?.payload?.success) {
             

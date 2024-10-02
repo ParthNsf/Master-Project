@@ -17,13 +17,15 @@ export const registerUser = createAsyncThunk(
         withCredentials: true,
       }
     );
-
     return response.data;
   }
 );
+
 export const loginUser = createAsyncThunk(
   "/auth/login",
   async (formData) => {
+    console.log(formData, "formData");
+
     const response = await axios.post(
       "http://localhost:5000/api/auth/login",
       formData,
@@ -31,8 +33,6 @@ export const loginUser = createAsyncThunk(
         withCredentials: true,
       }
     );
-
-    
 
     return response.data;
   }
@@ -43,8 +43,9 @@ const authslice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {},
-    extraReducers: (builder) => {
-      builder
+  },
+  extraReducers: (builder) => {
+    builder
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
       })
@@ -62,6 +63,7 @@ const authslice = createSlice({
         state.isLoading = true;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
+        console.log(action, "action");
         state.isLoading = false;
         state.user = action.payload.success ? action.payload.user : null;
         state.isAuthenticated = action.payload.success;
@@ -70,10 +72,11 @@ const authslice = createSlice({
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
-      })
-    },
+      });
   },
 });
+
+console.log(authslice, "authslice");
 
 export const { setUser } = authslice.actions;
 export default authslice.reducer;
