@@ -3,7 +3,10 @@ import CommonForm from "@/components/common/form";
 import { Button } from "@/components/ui/button";
 import { SheetContent, SheetHeader, SheetTitle, Sheet } from "@/components/ui/sheet"; // Ensure this comes from your UI components
 import { addProductFormElements } from "@/config";
-import React, { Fragment, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { addNewProduct, fetchAllProducts } from "@/store/admin/products-slice";
+import React, { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const initialFormData = {
@@ -23,13 +26,36 @@ function Adminproducts(props) {
   const [formData, setFormData] = useState(initialFormData);
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
-  const [imageLoadingState, setImageLoadingState] = useState(false)
+  const [imageLoadingState, setImageLoadingState] = useState(false);
+  const {productList} = useSelector(state => state.adminProducts)
+  const dispatch = useDispatch();
+  const { toast } = useToast();
 
-  function onSubmit() {
+
+  function onSubmit(event) {
     // Your form submission logic here
+    event.preventDefault();
+    dispatch(addNewProduct({
+      ...formData,
+      image: uploadedImageUrl,
+    })).then((data) => {
+      console.log(data);
+      if(data?.payload?.success){
+        dispatch(fetchAllProducts())
+        setOpenCreateProductsDialog(false)
+        setImageFile(null)
+        setFormData(initialFormData)
+        toast({
+          title: "Product add successfully",
+        })
+      }
+    })
   }
 
-  console.log(formData, "formdata");
+  useEffect(() => {
+    dispatch(fetchAllProducts())
+  },[dispatch])
+  console.log(productList, uploadedImageUrl, "formdata");
 
   return (
     <Fragment>
@@ -52,6 +78,7 @@ function Adminproducts(props) {
           uploadedImageUrl={uploadedImageUrl} 
           setUploadedImageUrl={setUploadedImageUrl}
           setImageLoadingState={setImageLoadingState}
+          imageLoadingState={imageLoadingState}
           />
           <div className="py-6">
             <CommonForm

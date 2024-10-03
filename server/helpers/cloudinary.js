@@ -2,7 +2,7 @@ const cloudinary = require("cloudinary").v2;
 const multer = require("multer");
 
 cloudinary.config({
-  cloud_name: "ecommarce",
+  cloud_name: "de44pwmll",
   api_key: "347487512649932",
   api_secret: "Hj9eju-6Bo92yYmE07UGWQBTnnI",
 });
@@ -20,3 +20,4 @@ async function imageUploadUtil(file) {
 const upload = multer({ storage });
 
 module.exports = { upload, imageUploadUtil };
+
