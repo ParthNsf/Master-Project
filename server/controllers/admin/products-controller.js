@@ -32,7 +32,6 @@ const addProduct = async (req, res) => {
       price,
       salePrice,
       totalStock,
-      averageReview,
     } = req.body;
 
     console.log(averageReview, "averageReview");
@@ -46,7 +45,6 @@ const addProduct = async (req, res) => {
       price,
       salePrice,
       totalStock,
-      averageReview,
     });
 
     await newlyCreatedProduct.save();
@@ -94,10 +92,9 @@ const editProduct = async (req, res) => {
       price,
       salePrice,
       totalStock,
-      averageReview,
     } = req.body;
 
-    let findProduct = await Products.findById(id);
+    const findProduct = await Products.findById(id);
     if (!findProduct)
       return res.status(404).json({
         success: false,
