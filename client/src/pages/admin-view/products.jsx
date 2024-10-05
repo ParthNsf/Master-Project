@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { SheetContent, SheetHeader, SheetTitle, Sheet } from "@/components/ui/sheet"; // Ensure this comes from your UI components
 import { addProductFormElements } from "@/config";
 import { useToast } from "@/hooks/use-toast";
-import { addNewProduct, fetchAllProducts } from "@/store/admin/products-slice";
+import { addNewProduct, editProduct, fetchAllProducts } from "@/store/admin/products-slice";
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -22,42 +22,61 @@ const initialFormData = {
 };
 
 function Adminproducts(props) {
-  const [openCreateProductsDialog, setOpenCreateProductsDialog] = useState(false);
-
+  const [openCreateProductsDialog, setOpenCreateProductsDialog] =
+    useState(false);
   const [formData, setFormData] = useState(initialFormData);
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [imageLoadingState, setImageLoadingState] = useState(false);
-  const [currentEditedId,setCurrentEditedId] = useState(null)
-  const {productList} = useSelector(state => state.adminProducts)
+  const [currentEditedId, setCurrentEditedId] = useState(null);
+
+  const { productList } = useSelector((state) => state.adminProducts);
   const dispatch = useDispatch();
   const { toast } = useToast();
 
-
   function onSubmit(event) {
-    // Your form submission logic here
     event.preventDefault();
-    dispatch(addNewProduct({
-      ...formData,
-      image: uploadedImageUrl,
-    })).then((data) => {
-      console.log(data);
-      if(data?.payload?.success){
-        dispatch(fetchAllProducts())
-        setOpenCreateProductsDialog(false)
-        setImageFile(null)
-        setFormData(initialFormData)
-        toast({
-          title: "Product add successfully",
+
+    currentEditedId !== null
+      ? dispatch(
+          editProduct({
+            id: currentEditedId,
+            formData,
+          })
+        ).then((data) => {
+          console.log(data, "edit");
+
+          if (data?.payload?.success) {
+            dispatch(fetchAllProducts());
+            setFormData(initialFormData);
+            setOpenCreateProductsDialog(false);
+            setCurrentEditedId(null);
+          }
         })
-      }
-    })
+      : dispatch(
+          addNewProduct({
+            ...formData,
+            image: uploadedImageUrl,
+          })
+        ).then((data) => {
+          if (data?.payload?.success) {
+            dispatch(fetchAllProducts());
+            setOpenCreateProductsDialog(false);
+            setImageFile(null);
+            setFormData(initialFormData);
+            toast({
+              title: "Product add successfully",
+            });
+          }
+        });
   }
+
 
   useEffect(() => {
     dispatch(fetchAllProducts())
-  },[dispatch])
-  console.log(productList, uploadedImageUrl, "formdata");
+  }, [dispatch])
+  console.log(formData
+    , "formdata");
 
   return (
     <Fragment>
@@ -65,42 +84,47 @@ function Adminproducts(props) {
         <Button onClick={() => setOpenCreateProductsDialog(true)}>Add New Product</Button>
       </div>
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
-
-         {
+        {
           productList && productList.length > 0 ? productList.map((productItem) => (
-            <AdminProductTile 
+            <AdminProductTile
               product={productItem}
               setCurrentEditedId={setCurrentEditedId}
               setOpenCreateProductsDialog={setOpenCreateProductsDialog}
               setFormData={setFormData}
-              
+
             />
           ))
-         : null}
+            : null}
       </div>
       {/* Ensure you use the correct Sheet/Dialog component */}
       <Sheet
         open={openCreateProductsDialog}
-        onOpenChange={setOpenCreateProductsDialog} // Correctly handle state update
+        onOpenChange={() => {
+          setOpenCreateProductsDialog(false);
+          setCurrentEditedId(null);
+          setFormData(initialFormData)
+        }} // Correctly handle state update
       >
         <SheetContent side="right" className="overflow-auto">
           <SheetHeader>
-            <SheetTitle>Add New Product</SheetTitle>
+            <SheetTitle>{
+              currentEditedId !== null ? 'Edit Product' : 'Add New Product'
+            }</SheetTitle>
           </SheetHeader>
-          <ProductImageUpload 
-          imageFile={imageFile} 
-          setImageFile={setImageFile} 
-          uploadedImageUrl={uploadedImageUrl} 
-          setUploadedImageUrl={setUploadedImageUrl}
-          setImageLoadingState={setImageLoadingState}
-          imageLoadingState={imageLoadingState}
+          <ProductImageUpload
+            setImageFile={setImageFile}
+            uploadedImageUrl={uploadedImageUrl} // Preload the existing image URL if in edit mode
+            setUploadedImageUrl={setUploadedImageUrl}
+            setImageLoadingState={setImageLoadingState}
+            imageLoadingState={imageLoadingState}
+            isEditMode={currentEditedId !== null}
           />
           <div className="py-6">
             <CommonForm
               onSubmit={onSubmit}
               formData={formData}
               setFormData={setFormData}
-              buttonText="Add"
+              buttonText={currentEditedId !== null ? 'Edit' : 'Add'}
               formControls={addProductFormElements}
             />
           </div>
