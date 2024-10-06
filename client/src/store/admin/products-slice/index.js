@@ -10,9 +10,9 @@ const initialState = {
 
 export const addNewProduct = createAsyncThunk(
   "/products/addnewproduct",
-  async (fromData) => {
+  async (formData) => {
     const result = await axios.post(
-      "http://localhost:5000/api/admin/products/add", fromData , {
+      "http://localhost:5000/api/admin/products/add", formData , {
         headers: {  
           'Content-Type' : 'application/json'
         }
@@ -34,9 +34,12 @@ export const fetchAllProducts = createAsyncThunk(
 
 export const editProduct = createAsyncThunk(
   "/products/addnewproduct",
-  async ({id, fromData}) => {
+  async ({id, formData}) => {
+
+    console.log(formData);
+
     const result = await axios.put(
-      `http://localhost:5000/api/admin/products/edit/${id}`, fromData , {
+      `http://localhost:5000/api/admin/products/edit/${id}`, formData , {
         headers: {  
           'Content-Type' : 'application/json'
         }
