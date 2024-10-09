@@ -4,13 +4,16 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import axios from 'axios';
+import { Skeleton } from '../ui/skeleton';
 
 function ProductImageUpload({
   imageFile,
   setImageFile,
   uploadedImageUrl,
   setUploadedImageUrl,
-  setImageLoadingState
+  setImageLoadingState,
+  imageLoadingState
+  
   
 }) {
   const inputRef = useRef(null);
@@ -88,6 +91,8 @@ function ProductImageUpload({
             <span>Drag & drop or click to upload image</span>
           </label>
         ) : (
+          imageLoadingState ? 
+          <Skeleton className='h-10 bg-gray-100' /> :
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               {uploadedImageUrl ? (

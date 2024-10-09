@@ -22,8 +22,9 @@ function Adminproducts(props) {
 
   const [formData, setFormData] = useState(initialFormData);
   const [imageFile, setImageFile] = useState(null);
-  const [imageLoadingState, setImageLoadingState] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
+  const [imageLoadingState, setImageLoadingState] = useState(false);
+
 
 
   setUploadedImageUrl
@@ -54,6 +55,7 @@ function Adminproducts(props) {
           uploadedImageUrl={uploadedImageUrl} 
           setUploadedImageUrl={setUploadedImageUrl}
           setImageLoadingState={setImageLoadingState}
+          imageLoadingState={imageLoadingState}
           />
           <div className="py-6">
             <CommonForm
