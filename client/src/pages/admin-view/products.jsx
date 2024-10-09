@@ -22,12 +22,17 @@ function Adminproducts(props) {
 
   const [formData, setFormData] = useState(initialFormData);
   const [imageFile, setImageFile] = useState(null);
+  const [imageLoadingState, setImageLoadingState] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
 
+
+  setUploadedImageUrl
   function onSubmit() {
-    // Your form submission logic here
+    
   }
 
+  console.log(formData,'formData');
+  
   return (
     <Fragment>
       <div className="mb-5 w-full flex justify-end">
@@ -48,6 +53,7 @@ function Adminproducts(props) {
           setImageFile={setImageFile} 
           uploadedImageUrl={uploadedImageUrl} 
           setUploadedImageUrl={setUploadedImageUrl}
+          setImageLoadingState={setImageLoadingState}
           />
           <div className="py-6">
             <CommonForm
