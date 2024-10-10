@@ -12,7 +12,8 @@ function ProductImageUpload({
   uploadedImageUrl,
   setUploadedImageUrl,
   setImageLoadingState,
-  imageLoadingState
+  imageLoadingState,
+  isEditMode
   
   
 }) {
@@ -35,7 +36,7 @@ function ProductImageUpload({
 
   function handleRemoveImage() {
     setImageFile(null);
-    setUploadedImageUrl("");
+    setUploadedImageUrl(null);
     if (inputRef.current) {
       inputRef.current.value = "";
     }
@@ -72,7 +73,9 @@ function ProductImageUpload({
       <div
         onDragOver={handleDragOver}
         onDrop={handleDrop}
-        className="border-2 border-dashed rounded-lg p-4"
+        className={`${
+          isEditMode ? "opacity-60" : ""
+        } border-2 border-dashed rounded-lg p-4`}
       >
         <Input
           id="image-upload"
@@ -80,6 +83,7 @@ function ProductImageUpload({
           className="hidden"
           ref={inputRef}
           onChange={handleImageFileChange}
+
           accept="image/*"
         />
         {!imageFile && !uploadedImageUrl ? (
