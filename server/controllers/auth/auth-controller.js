@@ -92,7 +92,7 @@ const loginUser = async (req, res) => {
         userName: checkUser.userName,
       },
       "ewff44f4fwes",
-      { expiresIn: "5m" }
+      { expiresIn: "1hrs" }
     );
 
     res.cookie("token", token, { httpOnly: true, secure: false }).json({
@@ -102,6 +102,8 @@ const loginUser = async (req, res) => {
         email: checkUser.email,
         role: checkUser.role,
         id: checkUser._id,
+        userName: checkUser.userName,
+
       },
     });
   } catch (e) {
@@ -114,7 +116,9 @@ const loginUser = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
-  res.clearCoookie('token').json({
+  console.log(res);
+  
+  res.clearCookie('token').json({
     success: true,
     message: "Logged out successfully"
   })

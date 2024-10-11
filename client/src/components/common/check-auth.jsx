@@ -5,7 +5,8 @@ function CheckAuth({ isAuthenticated, user, children }) {
 
 
   const location = useLocation();
-  console.log(location.pathname,isAuthenticated);
+
+  console.log(location.pathname,isAuthenticated,"is");
   
 
   
