@@ -1,9 +1,66 @@
+import CommanForm from "@/components/common/form";
+import { loginformcontrols } from "@/config";
+import { toast } from "@/hooks/use-toast";
+import { loginUser } from "@/store/auth-slice";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+
 function AuthLogin() {
-    return ( 
-        <div>
-            Login
+
+    const initialState = {
+        email: '',
+        password: ''
+    }
+
+    const [formData, setFormData] = useState(initialState)
+    const dispatch = useDispatch(); // Correct typo here
+
+    function onSubmit(event){
+        event.preventDefault();
+
+        dispatch(loginUser(formData)).then((data) => {
+            console.log("data",data);
+            
+          if (data?.payload?.success) {
+            
+            toast({
+              title: data?.payload?.message,
+            });
+          } else {
+            console.log("1");
+
+            toast({
+              title: data?.payload?.message,
+              variant: "destructive",
+            });
+          }
+        });
+    }
+
+
+    console.log(formData);
+    
+    return (
+    <div className="mx-auto w-full max-w-md space-y-6">
+        <div className="text-center">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                Sign In To Your Account
+            </h1>
+            <p className="mt-2">
+                Don't have an Account  <Link className="font-medium text-primary hover:underline ml-1" to='/auth/register'>
+                Register
+                </Link>
+            </p>
         </div>
-     );
+        <CommanForm 
+            formControls={loginformcontrols }
+            buttonText={'Sign In'}
+            formData={formData}
+            setFormData={setFormData}
+            onSubmit={onSubmit}
+        />
+    </div>  );
 }
 
 export default AuthLogin;
