@@ -1,11 +1,10 @@
 import { filterOptions } from "@/config";
 import { Label } from "@radix-ui/react-label";
 import { Checkbox } from "../../../src/components/ui/checkbox";
-
 import React, { Fragment } from "react";
 import { Separator } from "@/components/ui/separator";
 
-function ProductFilter(props) {
+function ProductFilter({ filters, handleFilter }) {
   return (
     <div className="bg-background rounded-lg shadow-sm">
       <div className="p-4 border-b">
@@ -20,9 +19,17 @@ function ProductFilter(props) {
                 {filterOptions[keyItem].map((option) => (
                   <Label
                     key={option.label}
-                    className="flex items-center font-medium gap-2"  // Ensures checkbox and label are aligned
+                    className="flex items-center font-medium gap-2"
                   >
-                    <Checkbox className="flex-shrink-0" /> {/* Prevents checkbox from shrinking */}
+                    <Checkbox
+                      checked={
+                        filters &&
+                        filters[keyItem] &&
+                        filters[keyItem].indexOf(option.id) > -1
+                      }
+                      className="flex-shrink-0"
+                      onCheckedChange={() => handleFilter(keyItem, option.id)}
+                    />
                     {option.label}
                   </Label>
                 ))}
